@@ -1,7 +1,7 @@
 import Product from "../models/Product"
 
 
-export const createProducts = async (req, res) => {
+export const createProduct = async (req, res) => {
 
     const {name, category, price, imgURL} = req.body
 
@@ -17,14 +17,21 @@ export const getProducts = async (req, res) => {
     res.json(products)
 }
 
-export const getProductsById = (req, res) => {
-
+export const getProductById = async (req, res) => {
+    const product = await Product.findById(req.params.productId);
+    res.status(200).json(product)
 }
 
-export const updateProductsById  = (req, res) => {
-
+export const updateProductById  = async (req, res) => {
+    const updateProduct = await Product.findByIdAndUpdate(req.params.productId, req.body,{
+        new: true
+    });
+    res.status(200).json(updateProduct)
+    
 }
 
-export const deleteProductsById = (req, res) => {
-
+export const deleteProductsById = async (req, res) => {
+    const {productId} = req.params;
+    await Product.findByIdAndDelete(productId);
+    res.status(204).json()
 }
